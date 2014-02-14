@@ -1,0 +1,5 @@
+load 'deploy'
+load 'config/deploy'
+
+# Add your own recipes in files placed in lib/recipes ending in .rb,
+Dir['lib/recipes/**/*.rb'].each { |recipe| load recipe }
