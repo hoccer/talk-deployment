@@ -21,3 +21,7 @@ Then install all required gems via
 <pre>
 $ bundle
 </pre>
+
+## SSH Key exchange
+
+The deployment requires that you can ssh to the respective deployment target as the deployment user (`deployment`). For this to work automatically your ssh-pub-key must be present in the `authorized_keys` file of the user `deployment`.

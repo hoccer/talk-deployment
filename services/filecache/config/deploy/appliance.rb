@@ -1,2 +1,1 @@
-# APPLIANCE-specific deployment configuration
-# please put general deployment config in config/deploy.rb
+server '192.168.60.10', :app, :web, :primary => true
