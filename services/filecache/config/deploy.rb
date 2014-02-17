@@ -36,11 +36,3 @@ task :fill_cache do
   run_locally 'touch cache/foo'
 end
 before 'deploy:update', 'fill_cache'
-
-
-#namespace :deploy do
-#  task :finalize_update, :except => { no_release: true } do
-#    run %Q|chmod -R g+w #{latest_release}| if fetch(:group_writable, true)
-#    run %Q|sudo chown -R #{runner} #{latest_release}|
-#  end
-#end
