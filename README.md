@@ -24,7 +24,22 @@ $ bundle
 
 ## SSH Key exchange
 
-The deployment requires that you can ssh to the respective deployment target as the deployment user (`deployment`). For this to work automatically your ssh-pub-key must be present in the `authorized_keys` file of the user `deployment`.
+The deployment requires that you can passwordless ssh to the respective 
+deployment target as the deployment user (`deployment`). For this to work 
+automatically your ssh-pub-key must be present in the `authorized_keys` file of the user `deployment`.
+
+<pre>
+$ vagrant ssh
+$ sudo su deployment
+$ mkdir .ssh
+$ vim .ssh/authorized_keys  // copy your pub-key into here
+</pre>
+
+Exit the appliance and check if passwordless login is setup:
+
+<pre>
+$ ssh deployment@192.168.60.10
+</pre>
 
 ## Deploying
 
@@ -47,7 +62,7 @@ $ cap &lt;stagename&gt; deploy
 
 For development purposes only guard and rubocop are used.
 
-Any developent should be accompanied by having
+Any development should be accompanied by having
 
 <pre>
 $ bundle exec guard
