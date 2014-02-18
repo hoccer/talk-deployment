@@ -9,7 +9,7 @@ set :stages, %w(production staging appliance)
 set :application, 'filecache'
 
 set :scm, :none
-set :repository, "cache"
+set :repository, 'cache'
 set :deploy_via, :copy
 set :keep_releases, 5
 
@@ -27,11 +27,11 @@ set :shared_children, %w(log)
 
 # Custom Recipe Hooks
 after 'deploy:setup', 'misc:fix_permissions'
-after "deploy", "deploy:cleanup"
+after 'deploy', 'deploy:cleanup'
 
 task :fill_cache do
   run_locally 'mkdir -p cache'
-  # TODO Actually retrieve the artifact we want to deploy here
+  # TODO: Actually retrieve the artifact we want to deploy here
   # from github release based on additional variables (repo, version?, ...)
   run_locally 'touch cache/foo'
 end

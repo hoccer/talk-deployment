@@ -3,8 +3,8 @@ require 'octokit'
 require 'curb'
 
 if ARGV.size != 2
-  puts "Username and auth-token required."
-  puts "./ocokit.rb [username] [auth-token]"
+  puts 'Username and auth-token required.'
+  puts './ocokit.rb [username] [auth-token]'
   puts "See: 'https://help.github.com/articles/creating-an-access-token-for-command-line-use'"
   exit
 end
@@ -14,14 +14,14 @@ auth_token = ARGV[1]
 tag_prefix = 'filecache'
 repository = 'hoccer/hoccer-talk-spike'
 
-client = Octokit::Client.new :access_token => auth_token
+client = Octokit::Client.new access_token: auth_token
 releases = client.releases repository
 
 relevant_releases = releases.select do |release|
   release.tag_name.start_with? tag_prefix
 end
 
-tag_name = relevant_releases.first.tag_name
+# tag_name = relevant_releases.first.tag_name
 
 asset_id = relevant_releases.first.rels[:assets].get.data.first.id
 

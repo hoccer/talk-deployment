@@ -42,3 +42,15 @@ $ cap &lt;stagename&gt; deploy:check
 <pre>
 $ cap &lt;stagename&gt; deploy
 </pre>
+
+## Development setup
+
+For development purposes only guard and rubocop are used.
+
+Any developent should be accompanied by having
+
+<pre>
+$ bundle exec guard
+</pre>
+
+running in a console. Currently this only monitors code-style of the ruby code according to a sane standard. In the future additionally tests with rspec are possible.

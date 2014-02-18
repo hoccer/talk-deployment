@@ -10,3 +10,9 @@ gem 'octokit', '~> 2.0'
 
 gem 'pry'
 gem 'curb'
+
+group :test, :development do
+  gem 'guard'
+  gem 'rubocop'
+  gem 'guard-rubocop'
+end
