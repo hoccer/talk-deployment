@@ -1,5 +1,4 @@
 module GithubReleaseFetcher
-
   class Release
     attr_reader :tag_name
 
@@ -15,12 +14,12 @@ module GithubReleaseFetcher
     end
 
     def version
-      @tag_name.split("-").last
+      @tag_name.split('-').last
     end
 
     def deployable?
       return false if assets.empty?
-      assets.all? { |asset| asset.state == "uploaded" }
+      assets.all? { |asset| asset.state == 'uploaded' }
     end
 
     def assets
@@ -28,7 +27,7 @@ module GithubReleaseFetcher
       @assets
     end
 
-    def fetch_assets path
+    def fetch_assets(path)
       assets.each do |asset|
         download_url = %Q|https://api.github.com/repos/#{@product.repository.name}/releases/assets/#{asset.id}|
         puts "<GithubReleaseFetcher::Release.fetch_assets> Downloading asset '#{asset.name}'"
@@ -47,7 +46,7 @@ module GithubReleaseFetcher
         
         c.perform
         # puts c.body_str.size
-        File.open(File.join(path, asset.name), "w+") { |file|
+        File.open(File.join(path, asset.name), 'w+') { |file|
           file.write c.body_str
         }
       end
@@ -58,6 +57,5 @@ module GithubReleaseFetcher
       def resolve_assets
         @assets = @raw_assets.get.data
       end
-
   end
 end

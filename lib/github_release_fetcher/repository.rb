@@ -1,7 +1,5 @@
 module GithubReleaseFetcher
-
   class Repository
-
     attr_reader :products, :name
 
     def initialize(repository_name, product_names = [])

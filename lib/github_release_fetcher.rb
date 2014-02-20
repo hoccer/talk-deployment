@@ -15,7 +15,5 @@ module GithubReleaseFetcher
       @auth_token = options[:auth_token]
       @client = Octokit::Client.new access_token: @auth_token
     end
-
   end
 end
-

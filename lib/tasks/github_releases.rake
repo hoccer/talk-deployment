@@ -1,8 +1,8 @@
 $LOAD_PATH.push File.expand_path("..", File.dirname(__FILE__))
 
 require 'yaml'
-require "chromatic"
-require "github_release_fetcher"
+require 'chromatic'
+require 'github_release_fetcher'
 
 namespace :github_releases do
 

@@ -1,5 +1,4 @@
 module GithubReleaseFetcher
-
   class Product
     attr_reader :name, :releases, :repository
 
@@ -19,6 +18,5 @@ module GithubReleaseFetcher
       end
       return nil
     end
-
   end
 end
