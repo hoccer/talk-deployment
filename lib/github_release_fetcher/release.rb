@@ -30,8 +30,26 @@ module GithubReleaseFetcher
 
     def fetch_assets path
       assets.each do |asset|
-        download_url = %Q|https://api.github.com/repos/#{@product.repository.name}/releases/assets/#{asset.id}| # XXX make path Constant
-        puts " - #{asset.name} download_url: #{download_url}"
+        download_url = %Q|https://api.github.com/repos/#{@product.repository.name}/releases/assets/#{asset.id}|
+        puts "<GithubReleaseFetcher::Release.fetch_assets> Downloading asset '#{asset.name}'"
+        puts "                                               from '#{download_url}'"
+        puts "                                               to '#{path}'"
+        
+        c = Curl::Easy.new download_url do |curl|
+          curl.headers['Accept'] = 'application/octet-stream'
+          # http://developer.github.com/v3/#user-agent-required
+          curl.headers['User-Agent'] = 'octokit-capistrano V 1.0'
+        end
+        c.follow_location = true
+        c.http_auth_types = :basic
+        c.username = GithubReleaseFetcher.user_name
+        c.password = GithubReleaseFetcher.auth_token
+        
+        c.perform
+        # puts c.body_str.size
+        File.open(File.join(path, asset.name), "w+") { |file|
+          file.write c.body_str
+        }
       end
     end
 

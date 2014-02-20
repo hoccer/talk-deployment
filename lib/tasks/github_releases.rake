@@ -1,19 +1,18 @@
 $LOAD_PATH.push File.expand_path("..", File.dirname(__FILE__))
 
-#puts __FILE__
-#puts $LOAD_PATH
-
+require 'yaml'
 require "chromatic"
 require "github_release_fetcher"
 
 namespace :github_releases do
+
+  SECRETS = YAML::load_file("config/secrets.yml")
+  REPOSITORY_PATH = "hoccer/hoccer-talk-spike"
+  PRODUCT_NAMES = ["filecache", "talkserver"]
   
-  #$ rake github_releases:list[kristinew,fc069cecf1cefc8d8cbbb6747b38cc20237ed356]
   desc "list available releases"
-  task :list, :user, :token do |t, args| # arguments: user_name, auth_token
-    puts "Args are: #{args}"
-    
-    repo = get_repo args[:user], args[:token]
+  task :list do
+    repo = get_repo
     
     # list releases per product
     repo.products.each do |product_name, product|
@@ -29,23 +28,26 @@ namespace :github_releases do
     end
   end
 
-  task :latest_release, :user, :token do |t, args|
-    repo = get_repo args[:user], args[:token]
+  desc "download all assets of the latest deployable releases"
+  task :fetch_latest_releases do
+    repo = get_repo
     
     repo.products.each do |product_name, product|
       latest_release_name = product.latest_release ? product.latest_release.tag_name : "No latest release found"
-      puts " - #{product_name}, latest deployable release: #{latest_release_name}"
-      #if product.latest_release
-      #  product.latest_release.fetch_assets("tmp")
-      #end
+      puts ":: #{product_name}, latest deployable release: #{latest_release_name}".bold
+      if product.latest_release
+        path = File.join("tmp/", product_name)
+        FileUtils.mkdir_p path
+        product.latest_release.fetch_assets(path)
+      end
     end
   end
   
   
-  def get_repo(user_name, token)
-    GithubReleaseFetcher.init({ :user_name => user_name,
-                                :auth_token => token }) # better get this from file
-    return GithubReleaseFetcher::Repository.new "hoccer/hoccer-talk-spike", ["filecache", "talkserver", "lulu"]
+  def get_repo
+    GithubReleaseFetcher.init({ :user_name => SECRETS["github"]["username"],
+                                :auth_token => SECRETS["github"]["token"] })
+    return GithubReleaseFetcher::Repository.new REPOSITORY_PATH, PRODUCT_NAMES
   end
   
 end

@@ -2,3 +2,5 @@
 /.ruby-version
 
 /services/filecache/cache/
+/config/secrets.yml
+/tmp
