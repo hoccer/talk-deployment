@@ -4,7 +4,7 @@ require 'bundler/setup'
 require 'railsless-deploy'
 require 'capistrano/ext/multistage'
 
-$LOAD_PATH.push File.expand_path("../../../lib", File.dirname(__FILE__))
+$LOAD_PATH.push File.expand_path('../../../lib', File.dirname(__FILE__))
 require 'github_release_fetcher'
 
 set :stages, %w(production staging appliance)

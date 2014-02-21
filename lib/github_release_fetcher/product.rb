@@ -16,7 +16,7 @@ module GithubReleaseFetcher
       @releases.each do |release|
         return release if release.deployable?
       end
-      return nil
+      nil
     end
   end
 end

@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gem 'capistrano', '2.15.5'
 gem 'rvm-capistrano'
@@ -15,4 +15,5 @@ group :test, :development do
   gem 'guard'
   gem 'rubocop'
   gem 'guard-rubocop'
+  gem 'guard-bundler'
 end

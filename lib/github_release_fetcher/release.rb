@@ -33,7 +33,7 @@ module GithubReleaseFetcher
         puts "<GithubReleaseFetcher::Release.fetch_assets> Downloading asset '#{asset.name}'"
         puts "                                               from '#{download_url}'"
         puts "                                               to '#{path}'"
-        
+
         c = Curl::Easy.new download_url do |curl|
           curl.headers['Accept'] = 'application/octet-stream'
           # http://developer.github.com/v3/#user-agent-required
@@ -43,7 +43,7 @@ module GithubReleaseFetcher
         c.http_auth_types = :basic
         c.username = GithubReleaseFetcher.user_name
         c.password = GithubReleaseFetcher.auth_token
-        
+
         c.perform
         # puts c.body_str.size
         File.open(File.join(path, asset.name), 'w+') { |file|
@@ -54,8 +54,8 @@ module GithubReleaseFetcher
 
     private
 
-      def resolve_assets
-        @assets = @raw_assets.get.data
-      end
+    def resolve_assets
+      @assets = @raw_assets.get.data
+    end
   end
 end

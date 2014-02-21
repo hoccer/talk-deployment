@@ -7,9 +7,6 @@ TrailingWhitespace:
 DefWithParentheses:
   Enabled: true
 
-DefWithoutParentheses:
-  Enabled: true
-
 LineLength:
   Enabled: false
 

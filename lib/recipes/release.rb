@@ -10,10 +10,10 @@ namespace :release do
   end
 
   task :fetch_github_release do
-    config = YAML::load_file('../../config/secrets.yml')
+    config = YAML.load_file('../../config/secrets.yml')
 
-    GithubReleaseFetcher.init({ :user_name => config['github']['username'],
-                                :auth_token => config['github']['token'] })
+    GithubReleaseFetcher.init user_name: config['github']['username'],
+                              auth_token: config['github']['token']
     repo = GithubReleaseFetcher::Repository.new github_repository, [product_name]
 
     repo.products.each do |product_name, product|
