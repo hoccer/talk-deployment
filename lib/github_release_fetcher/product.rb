@@ -18,5 +18,12 @@ module GithubReleaseFetcher
       end
       nil
     end
+
+    def release_by_version(version)
+      @releases.each do |release|
+        return release if release.version == version
+      end
+      nil
+    end
   end
 end

@@ -28,11 +28,11 @@ module GithubReleaseFetcher
     end
 
     def fetch_assets(path)
-      assets.each do |asset|
+      assets.map { |asset|
         download_url = %Q|https://api.github.com/repos/#{@product.repository.name}/releases/assets/#{asset.id}|
-        puts "<GithubReleaseFetcher::Release.fetch_assets> Downloading asset '#{asset.name}'"
-        puts "                                               from '#{download_url}'"
-        puts "                                               to '#{path}'"
+        # puts "<GithubReleaseFetcher::Release.fetch_assets> Downloading asset '#{asset.name}'"
+        # puts "                                               from '#{download_url}'"
+        # puts "                                               to '#{path}'"
 
         c = Curl::Easy.new download_url do |curl|
           curl.headers['Accept'] = 'application/octet-stream'
@@ -45,11 +45,12 @@ module GithubReleaseFetcher
         c.password = GithubReleaseFetcher.auth_token
 
         c.perform
-        # puts c.body_str.size
-        File.open(File.join(path, asset.name), 'w+') { |file|
+        file_path = File.join(path, asset.name)
+        File.open(file_path, 'w+') { |file|
           file.write c.body_str
         }
-      end
+        file_path
+      }
     end
 
     private
