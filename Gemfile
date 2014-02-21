@@ -16,4 +16,6 @@ group :test, :development do
   gem 'rubocop'
   gem 'guard-rubocop'
   gem 'guard-bundler'
+  gem 'guard-shell'
+  gem 'command'
 end
