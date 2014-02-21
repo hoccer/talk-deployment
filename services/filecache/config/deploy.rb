@@ -38,5 +38,4 @@ set :shared_children, %w(log)
 after 'deploy:setup', 'misc:fix_permissions'
 after 'deploy', 'deploy:cleanup'
 
-before 'deploy:update', 'release:clean_cache'
-after 'release:clean_cache', 'release:fetch'
+before 'deploy:update', 'release:fetch'

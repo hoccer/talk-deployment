@@ -7,7 +7,9 @@ namespace :release do
   # use as:
   # before 'deploy:update', 'release:fetch'
   task :fetch do
+    release.clean_cache
     release.fetch_github_release
+    release.executable_asset
   end
 
   task :fetch_github_release do
@@ -37,7 +39,9 @@ namespace :release do
 
     logger.important "Selected release: #{product_version} ('#{selected_release.tag_name}')"
     logger.info "Downloading #{selected_release.assets.size} artifact(s)..."
-    selected_release.fetch_assets(repository_absolute_path).each { |artifact|
+
+    set :release_artifacts, selected_release.fetch_assets(repository_absolute_path)
+    release_artifacts.each { |artifact|
       logger.important %Q|- '#{artifact}'|
     }
     release.create_version_info
@@ -53,5 +57,29 @@ namespace :release do
   task :clean_cache do
     run_locally "rm -rf #{repository_absolute_path}"
     run_locally "mkdir -p #{repository_absolute_path}"
+  end
+
+  task :executable_asset do
+    # Here we determine which artifact of the downloaded ones is the actual
+    # executable binary file (.jar).
+    # A release's assets are defined as a bunch of assets of which one is
+    # the executable binary.
+    # Since we are using java the convention then is, that only one file is
+    # allowed to be a jar.
+    # All other artifacts have to be somethings else. The sole executble binary
+    # artifact is then selected.
+    # This also means that a release can have only one '*.jar' file attached!
+    # Anything else results in deployment failure.
+    logger.info 'Determining the executable artifact...'
+    executable_artifacts = release_artifacts.select { |artifact|
+      artifact[/^.*.jar$/]
+    }
+    if executable_artifacts.size != 1
+      logger.important %Q|Found '#{executable_artifacts.size}' artifacts instead of one! ABORTING!|
+      exit
+    end
+    executable_artifact = executable_artifacts.first
+
+    run_locally %Q|cd #{repository_absolute_path}; ln -s #{File.basename(executable_artifact)} #{product_name}.jar|
   end
 end
