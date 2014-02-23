@@ -1,5 +1,7 @@
 module GithubReleaseFetcher
   class Release
+    EXECUTABLE_FILE_EXTENSION = '.jar'
+
     attr_reader :tag_name
 
     def self.construct_from_raw_release(raw_release, product)
@@ -19,7 +21,19 @@ module GithubReleaseFetcher
 
     def deployable?
       return false if assets.empty?
+      one_executable? && uploaded?
+    end
+
+    def uploaded?
       assets.all? { |asset| asset.state == 'uploaded' }
+    end
+
+    def one_executable?
+      executables = assets.select { |asset|
+        asset.name[/^.*#{EXECUTABLE_FILE_EXTENSION}$/]
+      }
+      return executables.first.name if executables.size == 1
+      false
     end
 
     def assets
