@@ -8,7 +8,7 @@ namespace :github_releases do
 
   SECRETS = YAML.load_file('config/secrets.yml')
   REPOSITORY_PATH = 'hoccer/hoccer-talk-spike'
-  PRODUCT_NAMES = %w{filecache talkserver test}
+  PRODUCT_NAMES = %w{filecache talkserver}
 
   desc 'lists only latest release that would be deployed'
   task :latest do
