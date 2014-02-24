@@ -41,7 +41,7 @@ namespace :github_releases do
         release_name = (release == latest_release) ? release.tag_name.green.bold : release.tag_name
         puts "    * #{release_name} (#{release.version.cyan}) (#{release.assets.size} asset(s) attached, deployable: #{release.deployable? ? 'Yes'.green : 'No'.red})"
         release.assets.each do |asset|
-          puts "        * #{asset.name.magenta} (state: #{asset.state})"
+          puts "        * #{asset.name.magenta}#{"*".magenta.bold if release.one_executable? == asset.name} (state: #{asset.state})"
         end
       end
     end
