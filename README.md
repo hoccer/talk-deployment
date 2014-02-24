@@ -65,6 +65,22 @@ This is done by creating a file named `secrets.yml` in the directory `config`. S
 
 It is strongly recommended to create a personal access token (via https://github.com/settings/applications) which has only the following scopes set: `repo` and `public_repo`. Please do not use you password as token!
 
+## Upstart Scripts
+
+The services supplied here come with upstart scripts that should be placed in `/etc/init`.
+
+For every such service a symlink from `/lib/init/upstart-job` to `/etc/init.d/<service_name>` has to be created as well.
+
+The presence of the upstart scripts is a prerequisite of the deployment. The deployment process itself will not automatically install those. This a one-time administrative task.
+
+The upstart file for a service can be found in the `upstart` sub-directory of the respective service's deployment folder.
+
+## Configuring services
+
+The services require configuration files which are not part of the deployment process. For details about the configuration files and their contents consult the repsective service's instructions.
+
+It can be seen in the upstart script where the config file should reside (actually in the `shared/config` subfolder).
+
 ## Deploying
 
 ### Preparation a target machine

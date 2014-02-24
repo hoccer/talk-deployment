@@ -17,7 +17,8 @@ namespace :release do
   # use as:
   # after 'deploy:create_symlink', 'release:restart_service'
   task :restart_service do
-    logger.important %Q|Restarting the service '#{product_name}'|
+    logger.important %Q|Restarting the service '#{product_name}' ...|
+    run "sudo service #{product_name} restart"
   end
 
   task :load_secrets do

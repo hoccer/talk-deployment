@@ -40,7 +40,7 @@ set :product_name, application
 set :product_version, nil
 
 # Directories that are shared between releases.
-set :shared_children, %w(log conf files)
+set :shared_children, %w(log config files)
 
 ## Custom Recipe Hooks
 # The deploy:setup behaves oddly historically - fix this
