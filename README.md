@@ -45,7 +45,7 @@ $ ssh deployment@192.168.60.10
 
 ### Preparing a release
 
-A Release is defined as github release where the tag name is `&lt;product-name&gt;-&lt;version&gt;`
+A Release is defined as github release where the tag name is `<product-name>-<version>`
 
 The deployment process can either automatically select the most current release or a specific version can be deployed.
 
@@ -53,7 +53,7 @@ A release is available for deployment if the following conditions are true:
 
 * At least one asset is attached to the release
 * All assets have the state `uploaded` (which usually is the case as soon as the asset is uploaded - in fact we were unable to find what other states even exist)
-* Exactly one asset has a file ending of `.jar`. This asset is assumed to be the actualy executable. Other assets are also deployed but the executable asset is linked to `&lt;product-name&gt;.jar` so the start-up scripts know which file to actually start.
+* Exactly one asset has a file ending of `.jar`. This asset is assumed to be the actualy executable. Other assets are also deployed but the executable asset is linked to `<product-name>.jar` so the start-up scripts know which file to actually start.
 
 Not covered here is a description on how to actually generate the release assets of a release. This is part of the packaging instruction of the respective product.
 
