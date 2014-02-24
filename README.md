@@ -57,6 +57,14 @@ A release is available for deployment if the following conditions are true:
 
 Not covered here is a description on how to actually generate the release assets of a release. This is part of the packaging instruction of the respective product.
 
+### Accessing the releases with the deployment scripts
+
+Since we have private repositories the releases are also private. To access them during deployment authentication to github has to be provided.
+
+This is done by creating a file named `secrets.yml` in the directory `config`. Supply your github username and authentication token in there. Consult the file `config/secrets.yml_template` on how to format the file.
+
+It is strongly recommended to create a personal access token (via https://github.com/settings/applications) which has only the following scopes set: `repo` and `public_repo`. Please do not use you password as token!
+
 ## Deploying
 
 ### Preparation a target machine
@@ -98,13 +106,13 @@ All releases carry a file `version` that contains just the version string of the
 
 Get a full list of the tasks by executing `rake -T`
 
-* latest
+* `latest`
   This task lists the latest deployable relaeas for all known products
 
-* list
+* `list`
   This task lists all releases of all known products along some additional information about deployability.
 
-* fetch
+* `fetch`
   Fetches the assets associated with the latest_release to a `tmp` directory (top-level)
 
 ## Development setup

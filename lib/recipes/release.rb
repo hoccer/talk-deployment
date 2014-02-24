@@ -7,16 +7,31 @@ namespace :release do
   # use as:
   # before 'deploy:update', 'release:fetch'
   task :fetch do
+    release.load_secrets
     release.clean_cache
     release.fetch_github_release
     release.link_executable_asset
   end
 
-  task :fetch_github_release do
-    config = YAML.load_file('../../config/secrets.yml')
+  # restarts the service
+  # use as:
+  # after 'deploy:create_symlink', 'release:restart_service'
+  task :restart_service do
+    logger.important %Q|Restarting the service '#{product_name}'|
+  end
 
-    GithubReleaseFetcher.init user_name: config['github']['username'],
-                              auth_token: config['github']['token']
+  task :load_secrets do
+    if File.exist?('../../config/secrets.yml')
+      set :secrets, YAML.load_file('../../config/secrets.yml')
+    else
+      logger.important %Q|Please set your secrets. (config/secrets.yml). Consult the README for help!|
+      exit
+    end
+  end
+
+  task :fetch_github_release do
+    GithubReleaseFetcher.init user_name: secrets['github']['username'],
+                              auth_token: secrets['github']['token']
     repo = GithubReleaseFetcher::Repository.new github_repository, [product_name]
 
     # We only care about ONE product here
