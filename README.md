@@ -69,7 +69,10 @@ It is strongly recommended to create a personal access token (via https://github
 
 The services supplied here come with upstart scripts that should be placed in `/etc/init`.
 
-For every such service a symlink from `/lib/init/upstart-job` to `/etc/init.d/<service_name>` has to be created as well.
+For every such service a symlink from `/lib/init/upstart-job` to `/etc/init.d/<service_name>` has to be created as well:
+<pre>
+$ sudo ln -s /lib/init/upstart-job /etc/init.d/filecache
+</pre>
 
 The presence of the upstart scripts is a prerequisite of the deployment. The deployment process itself will not automatically install those. This a one-time administrative task.
 
@@ -77,9 +80,9 @@ The upstart file for a service can be found in the `upstart` sub-directory of th
 
 ## Configuring services
 
-The services require configuration files which are not part of the deployment process. For details about the configuration files and their contents consult the repsective service's instructions.
+The services require configuration files which are not part of the deployment process but need to copied manually. For details about the configuration files and their contents consult the respective service's instructions.
 
-It can be seen in the upstart script where the config file should reside (actually in the `shared/config` subfolder).
+It can be seen in the upstart script where the config file should reside (actually in the `shared/config` subfolder which is initially created via `deploy:setup`).
 
 ## Deploying
 
@@ -90,6 +93,10 @@ It can be seen in the upstart script where the config file should reside (actual
 $ cap &lt;stagename&gt; deploy:setup
 $ cap &lt;stagename&gt; deploy:check
 </pre>
+
+### Create the service's config-file
+
+* create the service's configuration file at `shared/config/settings.conf` (find a template in the service's repo)
 
 ### Deploying latest version of a service
 
@@ -117,6 +124,10 @@ If no release exists for the specified version the deployment process will abort
 ### Version information metadata
 
 All releases carry a file `version` that contains just the version string of the deployed release.
+
+## Custom nginx setup
+
+Find documentation [here](https://github.com/hoccer/vagrant-appliance/wiki/Nginx-setup)
 
 ## Helper rake tasks
 

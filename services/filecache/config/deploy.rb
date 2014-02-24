@@ -26,6 +26,8 @@ set :user, 'deployment'
 set :runner, 'talk'
 set :use_sudo, true
 
+depend :remote, :command, "java"
+
 # Where on the server is the service deployed
 set :deploy_to, "/home/#{runner}/#{application}"
 
@@ -41,6 +43,9 @@ set :product_version, nil
 
 # Directories that are shared between releases.
 set :shared_children, %w(log config files)
+
+# feature to explicitely suppress restart, use: $ cap _stage_ deploy -s perform_restart=false
+set :perform_restart, true
 
 ## Custom Recipe Hooks
 # The deploy:setup behaves oddly historically - fix this
