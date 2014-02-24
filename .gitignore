@@ -1,6 +1,6 @@
 /.ruby-gemset
 /.ruby-version
 
-/services/filecache/cache/
+/services/**/cache/
 /config/secrets.yml
 /tmp
