@@ -26,7 +26,8 @@ set :user, 'deployment'
 set :runner, 'talk'
 set :use_sudo, true
 
-depend :remote, :command, "java"
+depend :remote, :command, 'java'
+depend :remote, :command, 'pwgen'
 
 # Where on the server is the service deployed
 set :deploy_to, "/home/#{runner}/#{application}"
