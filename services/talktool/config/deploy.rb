@@ -51,12 +51,11 @@ after 'deploy', 'deploy:cleanup'
 before 'deploy:update', 'scaling:get_artifact'
 
 
-
 ####################
 ### custom tasks ###
 ####################
 
-namespace :scaling do
+namespace :scaling do # TODO: find a better namespace name
   task :get_artifact do
     remove_old_jars
     copy_jar
