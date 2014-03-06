@@ -59,16 +59,20 @@ namespace :scaling do # TODO: find a better namespace name
   task :get_artifact do
     remove_old_jars
     copy_jar
+    link_executable
   end
   
   task :copy_jar do
     absolute_artifact_path = File.join(File.expand_path('../', File.dirname(__FILE__)), artifact_path)
-    #logger.info %Q| absolute artifact_path is '#{absolute_artifact_path}'|
     run_locally "cp #{absolute_artifact_path} #{jar_path}"
   end
   
   task :remove_old_jars do
     run_locally "rm -rf #{jar_path}"
     run_locally "mkdir -p #{jar_path}"
+  end
+  
+  task :link_executable do
+    run_locally %Q|cd #{jar_path}; ln -s #{File.basename(artifact_path)} #{application}.jar|
   end
 end
