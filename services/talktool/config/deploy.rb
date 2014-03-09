@@ -67,8 +67,7 @@ namespace :scaling do # TODO: find a better namespace name
   end
   
   task :copy_jar do
-    absolute_artifact_path = File.join(File.expand_path('../', File.dirname(__FILE__)), artifact_path)
-    run_locally "cp #{absolute_artifact_path} #{jar_path}"
+    run_locally "cp #{artifact_path} #{jar_path}"
   end
   
   task :remove_old_jars do
