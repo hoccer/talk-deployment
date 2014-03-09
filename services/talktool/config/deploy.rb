@@ -80,6 +80,7 @@ namespace :scaling do # TODO: find a better namespace name
   end
 
   task :create_symlinks, :roles => :slave do
+    next if find_servers_for_task(current_task).empty? # Skip for certain setups
     commands = []
     slave_current = "~/#{application}/current"
     slave_shared = "~/#{application}/shared"
