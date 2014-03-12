@@ -67,8 +67,7 @@ namespace :scaling do # TODO: find a better namespace name
   end
   
   task :copy_jar do
-    absolute_artifact_path = File.join(File.expand_path('../', File.dirname(__FILE__)), artifact_path)
-    run_locally "cp #{absolute_artifact_path} #{jar_path}"
+    run_locally "cp #{artifact_path} #{jar_path}"
   end
   
   task :remove_old_jars do
@@ -81,6 +80,7 @@ namespace :scaling do # TODO: find a better namespace name
   end
 
   task :create_symlinks, :roles => :slave do
+    next if find_servers_for_task(current_task).empty? # Skip for certain setups
     commands = []
     slave_current = "~/#{application}/current"
     slave_shared = "~/#{application}/shared"
