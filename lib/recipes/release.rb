@@ -13,18 +13,6 @@ namespace :release do
     release.link_executable_asset
   end
 
-  # restarts the service
-  # use as:
-  # after 'deploy:create_symlink', 'release:restart_service'
-  task :restart_service do
-    if perform_restart
-      logger.important %Q|Restarting the service '#{product_name}' ...|
-      run "sudo service #{product_name} restart"
-    else
-      logger.important %Q|As requested service '#{product_name}' is NOT restarted.|
-    end
-  end
-
   task :load_secrets do
     if File.exist?('../../config/secrets.yml')
       set :secrets, YAML.load_file('../../config/secrets.yml')

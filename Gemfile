@@ -7,6 +7,7 @@ gem 'railsless-deploy'
 gem 'capistrano_colors'
 gem 'chromatic'
 gem 'octokit', '~> 2.0'
+gem 'rvm-capistrano'
 
 gem 'pry'
 gem 'curb'
