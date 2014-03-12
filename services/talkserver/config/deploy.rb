@@ -56,4 +56,4 @@ after 'deploy:setup', 'misc:fix_permissions'
 after 'deploy', 'deploy:cleanup'
 
 before 'deploy:update', 'release:fetch'
-after 'deploy:create_symlink', 'release:restart_service'
+after 'deploy:create_symlink', 'upstart:restart_service'
