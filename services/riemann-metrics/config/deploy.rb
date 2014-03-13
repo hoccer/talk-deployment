@@ -36,14 +36,19 @@ set :shared_children, %w(log)
 # feature to explicitely suppress restart, use: $ cap _stage_ deploy -s perform_restart=false
 set :perform_restart, true
 
-## Custom Recipe Hooks
-# The deploy:setup behaves oddly historically - fix this
-after 'deploy:setup', 'misc:fix_permissions'
+#########################
+## Custom Recipe Hooks ##
+#########################
 
 # Trigger cleanup of old releases
 after 'deploy', 'deploy:cleanup'
-after 'deploy', 'bundler:bundle'
 
 set :service_name, application
 after 'deploy:create_symlink', 'upstart:restart_service'
-before 'deploy:setup', 'rvm:create_gemset' # only create gemset
+before 'upstart:restart_service', 'bundler:bundle'
+
+before 'deploy:setup', 'rvm:install_ruby' # install Ruby and create gemset
+# before 'deploy:setup', 'rvm:create_gemset' # only create gemset
+# The deploy:setup behaves oddly historically - fix this
+after 'deploy:setup', 'misc:fix_permissions'
+
