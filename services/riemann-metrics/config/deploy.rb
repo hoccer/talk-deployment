@@ -16,17 +16,15 @@ set :stages, %w(production staging appliance)
 set :application, 'riemann-metrics'
 
 set :scm, :git
-set :repository, 'https://github.com/hoccer/riemann-metrics.git'
-# We deploy the content of this directory!
+set :repository, 'git@github.com:hoccer/riemann-metrics.git'
 
 set :deploy_via, :copy
-# Keep the last 25 releases. Any older releases are deleted
-set :keep_releases, 25
+set :keep_releases, 5
 
 # Run the deployment as this user
 set :user, 'deployment'
 # The services are run as this user
-set :runner, 'talk'
+set :runner, 'riemann'
 set :use_sudo, true
 
 # Where on the server is the service deployed
@@ -44,10 +42,8 @@ after 'deploy:setup', 'misc:fix_permissions'
 
 # Trigger cleanup of old releases
 after 'deploy', 'deploy:cleanup'
+after 'deploy', 'bundler:bundle'
 
-before 'deploy:update', 'release:fetch'
-after 'deploy:create_symlink', 'release:restart_service'
-
-# before 'deploy:setup', 'rvm:install_rvm'  # install/update RVM
-before 'deploy:setup', 'rvm:install_ruby' # install Ruby and create gemset, OR:
-# before 'deploy:setup', 'rvm:create_gemset' # only create gemset
+set :service_name, application
+after 'deploy:create_symlink', 'upstart:restart_service'
+before 'deploy:setup', 'rvm:create_gemset' # only create gemset

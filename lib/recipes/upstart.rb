@@ -1,4 +1,3 @@
-
 namespace :upstart do
   # restarts the service
   # use as:
