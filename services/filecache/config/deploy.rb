@@ -47,12 +47,16 @@ set :shared_children, %w(log config files)
 # feature to explicitely suppress restart, use: $ cap _stage_ deploy -s perform_restart=false
 set :perform_restart, true
 
-## Custom Recipe Hooks
+#########################
+## Custom Recipe Hooks ##
+#########################
+
+set :service_name, application
+after 'deploy:create_symlink', 'upstart:restart_service'
+before 'deploy:update', 'release:fetch'
+
 # The deploy:setup behaves oddly historically - fix this
 after 'deploy:setup', 'misc:fix_permissions'
 
 # Trigger cleanup of old releases
 after 'deploy', 'deploy:cleanup'
-
-before 'deploy:update', 'release:fetch'
-after 'deploy:create_symlink', 'upstart:restart_service'
