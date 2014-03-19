@@ -61,3 +61,6 @@ after 'deploy:setup', 'misc:fix_permissions'
 
 # Trigger cleanup of old releases
 after 'deploy', 'deploy:cleanup'
+
+# Also restart after rollback
+after 'deploy:rollback:cleanup', 'upstart:restart_service'
