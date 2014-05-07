@@ -71,7 +71,7 @@ namespace :release do
       logger.important %Q|Executable artifact is: '#{executable_artifact}'|
 
       release.set_adhoc_product_version
-
+      release.create_version_info
     else
       logger.important %Q|Adhoc artifact at #{adhoc_artifact_path.inspect} cannot be found. ABORTING|
       exit
