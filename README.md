@@ -121,9 +121,25 @@ If no release exists for the specified version the deployment process will abort
 *** No deployable release acquired! ABORTING
 </pre>
 
+### Deploying an AdHoc version
+
+Adhoc versions are built locally and can be deployed without the official release cycle. This is intended for development purposes and should *never* be done for the production system.
+
+Required is a build-artifact (e.g. `hoccer-talk-server-1.0.5-jar-with-dependencies.jar` of the respective product).
+
+Adhoc deployments also allow to deploy changes that are not checked in, so please be careful with this.
+
+A typical command-line when e.g. deploying the talk-server look like this:
+
+<pre>
+cap appliance deploy -s adhoc_artifact_path=~/hoccer/git/hoccer-talk/server/target/hoccer-talk-server-1.0.5-jar-with-dependencies.jar
+</pre>
+
 ### Version information metadata
 
 All releases carry a file `version` that contains just the version string of the deployed release.
+
+Adhoc Releases will carry the string adhoc and information about the state of the git repository (e.g. `adhoc_classic_unification_17a88b3a5d590cd8ce0229ff5679686011cb1189`) in order to identify them post-deployment.
 
 ## Custom nginx setup
 
