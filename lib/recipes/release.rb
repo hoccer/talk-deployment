@@ -7,9 +7,15 @@ namespace :release do
   # use as:
   # before 'deploy:update', 'release:fetch'
   task :fetch do
-    release.load_secrets
     release.clean_cache
-    release.fetch_github_release
+    if adhoc_artifact_path
+      logger.info %Q|Performing a adhoc release fetch...|.colorize( :black ).on_white
+      release.fetch_adhoc_artifact
+    else
+      logger.info %Q|Performing a github release fetch...|.colorize( :black ).on_white
+      release.load_secrets
+      release.fetch_github_release
+    end
     release.link_executable_asset
   end
 
@@ -55,6 +61,34 @@ namespace :release do
     set :executable_artifact, selected_release.one_executable?
     logger.important %Q|Executable artifact is: '#{executable_artifact}'|
     release.create_version_info
+  end
+
+  task :fetch_adhoc_artifact do
+    if File.exists? adhoc_artifact_path
+      logger.info %Q|Fetching #{adhoc_artifact_path.inspect}...|
+      run_locally %Q|cp #{adhoc_artifact_path} #{repository_absolute_path}|
+      set :executable_artifact, adhoc_artifact_path
+      logger.important %Q|Executable artifact is: '#{executable_artifact}'|
+
+      release.set_adhoc_product_version
+
+    else
+      logger.important %Q|Adhoc artifact at #{adhoc_artifact_path.inspect} cannot be found. ABORTING|
+      exit
+    end
+  end
+
+  task :set_adhoc_product_version do
+    artifact_git_revision = `cd #{File.dirname(executable_artifact)}; git rev-parse HEAD`.strip!
+    dirty_repo_files = `cd #{File.dirname(executable_artifact)}; git status -s --untracked-files=no | wc -l`.strip!
+    branch_name = `cd #{File.dirname(executable_artifact)}; git rev-parse --abbrev-ref HEAD`.strip!
+    if Integer(dirty_repo_files) == 0
+      set :product_version, %Q|adhoc_#{branch_name}_#{artifact_git_revision}|
+    else
+      set :product_version, %Q|adhoc_#{branch_name}_#{artifact_git_revision}_with_#{dirty_repo_files}_dirty_files|
+    end
+    logger.important product_version
+    exit
   end
 
   task :create_version_info do

@@ -42,6 +42,12 @@ set :product_name, application
 # e.g. `cap appliance deploy -s product_version=1.0.0`
 set :product_version, nil
 
+# Used for Adhoc releases which are supplied by the user.
+# This is intended for development use and should never be used
+# for production use.
+# Use from command lime via `cap <stagename> deploy -s adhoc_artifact_path=<path_to_artifact_normally_a_jar>`
+set :adhoc_artifact_path, nil
+
 # Directories that are shared between releases.
 set :shared_children, %w(log config)
 
