@@ -88,7 +88,6 @@ namespace :release do
       set :product_version, %Q|adhoc_#{branch_name}_#{artifact_git_revision}_with_#{dirty_repo_files}_dirty_files|
     end
     logger.important product_version
-    exit
   end
 
   task :create_version_info do
