@@ -16,6 +16,7 @@ namespace :release do
       release.load_secrets
       release.fetch_github_release
     end
+    release.create_version_info
     release.link_executable_asset
   end
 
@@ -60,7 +61,6 @@ namespace :release do
     }
     set :executable_artifact, selected_release.one_executable?
     logger.important %Q|Executable artifact is: '#{executable_artifact}'|
-    release.create_version_info
   end
 
   task :fetch_adhoc_artifact do
@@ -71,7 +71,6 @@ namespace :release do
       logger.important %Q|Executable artifact is: '#{executable_artifact}'|
 
       release.set_adhoc_product_version
-      release.create_version_info
     else
       logger.important %Q|Adhoc artifact at #{adhoc_artifact_path.inspect} cannot be found. ABORTING|
       exit
@@ -87,7 +86,7 @@ namespace :release do
     else
       set :product_version, %Q|adhoc_#{branch_name}_#{artifact_git_revision}_with_#{dirty_repo_files}_dirty_files|
     end
-    logger.important product_version
+    logger.important %Q|Determined the product_version to be #{product_version.inspect}|
   end
 
   task :create_version_info do
