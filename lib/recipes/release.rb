@@ -5,7 +5,9 @@ namespace :release do
 
   # use as:
   # before 'deploy:update', 'release:fetch'
-  desc 'retrieving the artifacts we want to deploy'
+  if exists?(:product_name)
+    desc %Q|retrieving the artifacts for #{product_name.light_blue} we want to deploy|
+  end
   task :fetch do
     release.clean_cache
     if adhoc_artifact_path
