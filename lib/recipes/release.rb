@@ -9,10 +9,10 @@ namespace :release do
   task :fetch do
     release.clean_cache
     if adhoc_artifact_path
-      logger.info %Q|Performing a adhoc release fetch...|.colorize( :black ).on_white
+      logger.info %Q|Performing a adhoc release fetch...|.colorize(:black).on_white
       release.fetch_adhoc_artifact
     else
-      logger.info %Q|Performing a github release fetch...|.colorize( :black ).on_white
+      logger.info %Q|Performing a github release fetch...|.colorize(:black).on_white
       release.load_secrets
       release.fetch_github_release
     end

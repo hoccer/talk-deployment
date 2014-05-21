@@ -17,7 +17,7 @@ set :repository_absolute_path, File.join(File.expand_path('../', File.dirname(__
 set :jar_path, "#{repository_absolute_path}/jar"
 
 set :deploy_via, :copy
-set :copy_remote_dir, "/tmp"
+set :copy_remote_dir, '/tmp'
 # Keep the last 25 releases. Any older releases are deleted
 set :keep_releases, 25
 
@@ -29,7 +29,7 @@ set :runner, 'administrator' # should be 'talk'
 set :use_sudo, false
 default_run_options[:pty] = true
 
-depend :remote, :command, "java"
+depend :remote, :command, 'java'
 
 # Where on the server is the service deployed
 set :deploy_to, "/home/#{runner}/#{application}"
@@ -37,7 +37,7 @@ set :deploy_to, "/home/#{runner}/#{application}"
 # Directories that are shared between releases.
 set :shared_children, %w(log config)
 
-# explicitely specify artifact path, 
+# explicitely specify artifact path,
 # use: $ cap <stagename> deploy -s artifact_path=<path_to_artifact>
 set :artifact_path, nil
 
@@ -54,7 +54,6 @@ after 'deploy', 'deploy:cleanup'
 # copy the relevant jar to our 'repository'
 before 'deploy:update', 'scaling:get_artifact'
 
-
 ####################
 ### custom tasks ###
 ####################
@@ -65,26 +64,26 @@ namespace :scaling do # TODO: find a better namespace name
     copy_jar
     link_executable
   end
-  
+
   task :copy_jar do
     run_locally "cp #{artifact_path} #{jar_path}"
   end
-  
+
   task :remove_old_jars do
     run_locally "rm -rf #{jar_path}"
     run_locally "mkdir -p #{jar_path}"
   end
-  
+
   task :link_executable do
     run_locally %Q|cd #{jar_path}; ln -s #{File.basename(artifact_path)} #{application}.jar|
   end
 
-  task :create_symlinks, :roles => :slave do
+  task :create_symlinks, roles: :slave do
     next if find_servers_for_task(current_task).empty? # Skip for certain setups
     commands = []
     slave_current = "~/#{application}/current"
     slave_shared = "~/#{application}/shared"
-   
+
     commands << "rm -rf #{slave_current}"
     commands << "mkdir #{slave_current}"
     commands << "cd #{current_path};for file in *;do if [ ! -L $file ];then ln -s #{current_path}/$file #{slave_current}/$file;fi;done"

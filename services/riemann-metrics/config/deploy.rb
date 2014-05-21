@@ -7,7 +7,7 @@ require 'capistrano/ext/multistage'
 require 'rvm/capistrano'
 
 set :rvm_ruby_string, 'ruby-2.0.0-p353@riemann-metrics'
-set :rvm_autolibs_flag, "read-only"
+set :rvm_autolibs_flag, 'read-only'
 set :rvm_type, :system
 set :rvm_install_type, :stable
 
@@ -51,4 +51,3 @@ before 'deploy:setup', 'rvm:install_ruby' # install Ruby and create gemset
 # before 'deploy:setup', 'rvm:create_gemset' # only create gemset
 # The deploy:setup behaves oddly historically - fix this
 after 'deploy:setup', 'misc:fix_permissions'
-

@@ -7,6 +7,6 @@ namespace :bundler do
 
   task :bundle do
     puts 'bundling'
-      run "cd #{current_path}; rvm use #{rvm_ruby_string}; bundle install"
+    run "cd #{current_path}; rvm use #{rvm_ruby_string}; bundle install"
   end
 end
