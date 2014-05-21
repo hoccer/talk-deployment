@@ -3,9 +3,9 @@ require 'chromatic'
 
 namespace :release do
 
-  # retrieving the artifacts we want to deploy
   # use as:
   # before 'deploy:update', 'release:fetch'
+  desc 'retrieving the artifacts we want to deploy'
   task :fetch do
     release.clean_cache
     if adhoc_artifact_path
