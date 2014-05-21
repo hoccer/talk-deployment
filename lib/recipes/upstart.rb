@@ -1,7 +1,7 @@
 namespace :upstart do
   # use as:
   # after 'deploy:create_symlink', 'upstart:restart_service'
-  desc %Q|restarts the service (#{service_name})|
+  desc %Q|restarts the service (#{service_name.light_blue})|
   task :restart_service do
     if perform_restart
       logger.important %Q|Restarting the service '#{service_name}' ...|
