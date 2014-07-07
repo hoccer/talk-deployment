@@ -7,7 +7,7 @@ require 'capistrano/ext/multistage'
 $LOAD_PATH.push File.expand_path('../../../lib', File.dirname(__FILE__))
 require 'github_release_fetcher'
 
-set :stages, %w(production staging appliance)
+set :stages, %w(production production-review staging staging-review appliance)
 
 set :application, 'talkserver'
 
