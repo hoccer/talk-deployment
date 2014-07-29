@@ -20,7 +20,10 @@ module GithubReleaseFetcher
 
     def filter_releases(product_name, releases)
       relevant_releases = releases.select do |release|
-        release.tag_name.downcase.start_with? product_name.downcase
+        !release.draft &&
+        !release.pre_release &&
+        release.tag_name &&
+        release.tag_name.downcase.start_with?(product_name.downcase)
       end
       Product.new product_name, relevant_releases, self
     end
