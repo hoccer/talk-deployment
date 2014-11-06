@@ -6,6 +6,14 @@
 
 *Note:* Developed and tested on OS X
 
+* When working from outside the A+C office via VPN you need to add the following routing entries to the config:
+<pre>
+# route Hoccer DMZ over VPN
+route 192.76.129.16 255.255.255.240
+# route Hoccer external server
+route 80.82.205.16 255.255.255.240
+</pre>
+
 ## Setup
 
 Enter directory and first link up the `.ruby*` files:
