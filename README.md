@@ -1,6 +1,6 @@
 # Hoccer Deployment
 
-If it's just necessary to update the talkserver with the latest version go to the directory of the service (talkserver) and execute [deploying-latest-version-of-a-service](/hoccer/talk-deployment#deploying-latest-version-of-a-service)
+If it's just necessary to update the talkserver with the latest version go to the directory of the service (talkserver) and execute [deploying-latest-version-of-a-service](https://github.com/hoccer/talk-deployment/blob/master/README.md#deploying-latest-version-of-a-service)
 
 
 ## Prerequisites
